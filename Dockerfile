@@ -23,9 +23,10 @@ EXPOSE 80
 
 ENV PYTHONUNBUFFERED=1
 
-# Optional health check
+ENV PYTHONUNBUFFERED=1
+
 HEALTHCHECK --interval=30s --timeout=5s --start-period=5s --retries=3 \
   CMD curl -f http://localhost:80/health || exit 1
 
-# ✅ Correct port and host
 CMD ["python", "app.py"]
+
