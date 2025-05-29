@@ -394,5 +394,8 @@ async def request_entity_too_large(request, exc):
         }
     )
 
+
+
 if __name__ == "__main__":
-    uvicorn.run(app, host=config.api.host, port=config.api.port)
+    port = int(os.getenv("PORT", config.api.port))  # Use Azure's PORT or fallback to config
+    uvicorn.run(app, host=config.api.host, port=port)

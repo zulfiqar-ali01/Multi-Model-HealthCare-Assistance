@@ -123,7 +123,7 @@ class ValidationConfig:
 
 class APIConfig:
     def __init__(self):
-        self.host = "localhost"
+        self.host = "0.0.0.0"
         self.port = 8000
         self.debug = True
         self.rate_limit = 10
