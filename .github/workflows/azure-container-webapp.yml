@@ -1,4 +1,4 @@
-name: multi-model-agent
+name: Deploy to Azure Web App
 
 on:
   push:
