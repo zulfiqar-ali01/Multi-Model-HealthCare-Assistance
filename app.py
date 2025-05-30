@@ -25,6 +25,7 @@ from agents.agent_decision import process_query
 # Load configuration
 config = Config()
 
+
 # Initialize FastAPI app
 app = FastAPI(title="Multi-Modal  Healthcare Agent", version="2.0")
 
@@ -33,6 +34,7 @@ UPLOAD_FOLDER = "uploads/backend"
 FRONTEND_UPLOAD_FOLDER = "uploads/frontend"
 SKIN_LESION_OUTPUT = "uploads/skin_lesion_output"
 SPEECH_DIR = "uploads/speech"
+
 
 # Create directories if they don't exist
 for directory in [UPLOAD_FOLDER, FRONTEND_UPLOAD_FOLDER, SKIN_LESION_OUTPUT, SPEECH_DIR]:
