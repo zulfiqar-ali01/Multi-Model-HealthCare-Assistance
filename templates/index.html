@@ -1,12 +1,12 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NeuroMed AI - Advanced Healthcare Assistant</title>
+    <title>Healthcare Assistant</title>
     <link rel="icon" href="/assets/logo-round.png" type="image/png">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=Exo+2:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         /* Kimi-inspired color scheme */
         :root {
@@ -51,54 +51,6 @@
             transition: background-color 0.3s ease;
         }
 
-        /* Loading overlay */
-        .loading-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(255, 255, 255, 0.8);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 1000;
-        }
-
-        .loading-spinner {
-            width: 40px;
-            height: 40px;
-            border: 4px solid var(--kimi-primary);
-            border-top: 4px solid transparent;
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-        }
-
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        /* Background animation */
-        .bg-animation {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
-            z-index: 0;
-        }
-
-        .particles {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-        }
-
         /* Header styling */
         .app-header {
             display: flex;
@@ -109,8 +61,6 @@
             border-bottom: 1px solid var(--kimi-border);
             height: 64px;
             flex-shrink: 0;
-            position: relative;
-            z-index: 10;
         }
 
         .logo-container {
@@ -135,29 +85,11 @@
         .app-title {
             font-size: 18px;
             font-weight: 600;
-            font-family: 'Orbitron', sans-serif;
-            letter-spacing: 1px;
         }
 
         .header-actions {
             display: flex;
             gap: 16px;
-            align-items: center;
-        }
-
-        .status-indicator {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 14px;
-            color: var(--kimi-text-light);
-        }
-
-        .status-dot {
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            background-color: #4caf50;
         }
 
         .action-btn {
@@ -193,42 +125,6 @@
             transition: all 0.3s ease;
             overflow: hidden;
             flex-shrink: 0;
-            position: relative;
-            z-index: 5;
-        }
-
-        .sidebar-toggle {
-            display: none;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            background: none;
-            border: none;
-            cursor: pointer;
-            padding: 8px;
-            border-radius: 4px;
-            transition: background-color 0.2s;
-        }
-
-        .sidebar-toggle:hover {
-            background-color: var(--kimi-border);
-        }
-
-        .hamburger {
-            width: 24px;
-            height: 16px;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .hamburger span {
-            display: block;
-            width: 100%;
-            height: 2px;
-            background: var(--kimi-text);
-            transition: all 0.3s;
         }
 
         .new-chat-btn {
@@ -249,53 +145,6 @@
 
         .new-chat-btn:hover {
             background-color: var(--kimi-primary-light);
-        }
-
-        .ai-stats {
-            background-color: var(--kimi-bg);
-            border-radius: 12px;
-            padding: 16px;
-            margin-bottom: 16px;
-            box-shadow: 0 4px 8px var(--kimi-shadow);
-        }
-
-        .ai-stats-title {
-            font-size: 16px;
-            font-weight: 600;
-            margin-bottom: 12px;
-            color: var(--kimi-text);
-        }
-
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 16px;
-        }
-
-        .stat-item {
-            background-color: var(--kimi-card-bg);
-            border: 1px solid var(--kimi-border);
-            border-radius: 8px;
-            padding: 12px;
-            text-align: center;
-            transition: transform 0.2s, box-shadow 0.2s;
-        }
-
-        .stat-item:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 16px var(--kimi-shadow);
-        }
-
-        .stat-value {
-            font-size: 24px;
-            font-weight: 700;
-            color: var(--kimi-primary);
-            margin-bottom: 4px;
-        }
-
-        .stat-label {
-            font-size: 14px;
-            color: var(--kimi-text-light);
         }
 
         .history-title {
@@ -608,37 +457,21 @@
         }
     </style>
 </head>
-<body data-theme="light">
-    <!-- Loading Overlay -->
-    <div class="loading-overlay" id="loading-overlay">
-        <div class="loading-spinner"></div>
-    </div>
-
-    <!-- Background Animation -->
-    <div class="bg-animation"></div>
-    
-    <!-- Floating Particles -->
-    <div class="particles" id="particles"></div>
-
+<body>
     <!-- Header -->
     <header class="app-header">
         <div class="logo-container">
-            <button class="sidebar-toggle" id="sidebar-toggle">
-    <div class="hamburger">
-        <span></span>
-        <span></span>
-        <span></span>
-    </div>
-</button>
-           <img src="/assets/logo-round.png" alt="NeuroMed AI Logo" class="logo"/>
-            <div class="app-title">NeuroMed AI</div>
+            <button class="mobile-menu-btn action-btn" id="mobile-menu-btn">
+                <i class="fas fa-bars"></i>
+            </button>
+           <img src="/assets/logo-round.png" alt="Logo" class="logo">
+            <div class="app-title">Healthcare Assistant</div>
         </div>
         <div class="header-actions">
-            <div class="status-indicator">
-                <div class="status-dot"></div>
-                <span>AI Online</span>
-            </div>
-            <button class="action-btn" id="settings-btn" title="Settings">
+            <button class="action-btn" id="dark-mode-toggle">
+                <i class="fas fa-moon"></i>
+            </button>
+            <button class="action-btn">
                 <i class="fas fa-cog"></i>
             </button>
         </div>
@@ -648,47 +481,43 @@
     <div class="app-container">
         <!-- Sidebar -->
         <aside class="sidebar" id="sidebar">
-            <div class="sidebar-content">
-                <button class="new-chat-btn" id="new-chat-btn">
-                    <i class="fas fa-plus"></i>
-                    <span>New Analysis</span>
-                </button>
-
-                <div class="ai-stats">
-                    <div class="ai-stats-title">AI Performance</div>
-                    <div class="stats-grid">
-                        <div class="stat-item">
-                            <div class="stat-value">99.2%</div>
-                            <div class="stat-label">Accuracy</div>
-                        </div>
-                        <div class="stat-item">
-                            <div class="stat-value">1.2s</div>
-                            <div class="stat-label">Response</div>
-                        </div>
-                        <div class="stat-item">
-                            <div class="stat-value" id="analyzed-count">2.4k</div>
-                            <div class="stat-label">Analyzed</div>
-                        </div>
-                        <div class="stat-item">
-                            <div class="stat-value">24/7</div>
-                            <div class="stat-label">Uptime</div>
-                        </div>
-                    </div>
+            <button class="new-chat-btn" id="new-chat-btn">
+                <i class="fas fa-plus"></i> New Chat
+            </button>
+            <div class="history-title">Recent Conversations</div>
+            <div class="history-list" id="history-list">
+                <div class="history-item active">
+                    <i class="fas fa-comment"></i>
+                    <span>Skin lesion analysis</span>
                 </div>
-
-                <div class="history-title">Recent Analyses</div>
-                <div class="history-list" id="history-list">
-                    <!-- History items will be dynamically inserted here -->
+                <div class="history-item">
+                    <i class="fas fa-comment"></i>
+                    <span>Chest X-ray review</span>
+                </div>
+                <div class="history-item">
+                    <i class="fas fa-comment"></i>
+                    <span>Medication question</span>
+                </div>
+                <div class="history-item">
+                    <i class="fas fa-comment"></i>
+                    <span>Brain tumor detection</span>
+                </div>
+                <div class="history-item">
+                    <i class="fas fa-comment"></i>
+                    <span>Diabetes management</span>
                 </div>
             </div>
         </aside>
 
         <!-- Chat Container -->
         <div class="chat-container">
+            <!-- Messages Container -->
             <div class="chat-messages" id="chat-messages">
+                <!-- Welcome message when no conversation exists -->
                 <div class="welcome-container" id="welcome-message">
-                    <h1 class="welcome-title">NeuroMed AI</h1>
+                    <h1 class="welcome-title">Multi-Modal Healthcare Assistant</h1>
                     <p class="welcome-subtitle">Upload medical images, ask questions, and get AI-powered insights for diagnosis and treatment.</p>
+                    
                     <div class="capabilities-grid">
                         <div class="capability-card" data-prompt="Analyze this skin lesion image">
                             <div class="capability-icon">
@@ -697,6 +526,7 @@
                             <div class="capability-title">Skin Lesion Analysis</div>
                             <div class="capability-desc">Upload images for melanoma detection</div>
                         </div>
+                        
                         <div class="capability-card" data-prompt="Review this chest X-ray">
                             <div class="capability-icon">
                                 <i class="fas fa-lungs"></i>
@@ -704,6 +534,7 @@
                             <div class="capability-title">Chest X-ray Review</div>
                             <div class="capability-desc">Identify pneumonia, COVID-19, and other conditions</div>
                         </div>
+                        
                         <div class="capability-card" data-prompt="Explain this medication">
                             <div class="capability-icon">
                                 <i class="fas fa-pills"></i>
@@ -711,6 +542,7 @@
                             <div class="capability-title">Medication Assistant</div>
                             <div class="capability-desc">Information on drugs, interactions, and side effects</div>
                         </div>
+                        
                         <div class="capability-card" data-prompt="Analyze this MRI scan">
                             <div class="capability-icon">
                                 <i class="fas fa-brain"></i>
@@ -720,7 +552,11 @@
                         </div>
                     </div>
                 </div>
+
+                <!-- Messages will be dynamically inserted here -->
             </div>
+
+            <!-- Input Container -->
             <div class="input-container">
                 <div class="input-box">
                     <textarea 
@@ -744,6 +580,7 @@
             </div>
         </div>
     </div>
+
     <script>
         // DOM Elements
         const mobileMenuBtn = document.getElementById('mobile-menu-btn');

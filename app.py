@@ -18,6 +18,7 @@ import requests
 from werkzeug.utils import secure_filename
 from pydub import AudioSegment
 from elevenlabs.client import ElevenLabs
+from fastapi.middleware.cors import CORSMiddleware
 
 from config import Config
 from agents.agent_decision import process_query
@@ -25,25 +26,44 @@ from agents.agent_decision import process_query
 # Load configuration
 config = Config()
 
-
 # Initialize FastAPI app
-app = FastAPI(title="Multi-Modal  Healthcare Agent", version="2.0")
+app = FastAPI(title="Multi-Modal Healthcare Agent", version="2.0")
+
+# CORS settings for production
+origins = [
+    "http://localhost",
+    "http://localhost:3000",
+    "http://127.0.0.1:3000",
+    "http://127.0.0.1",
+    "http://localhost:8000",  # Added for local development
+    "http://127.0.0.1:8000",  # Added for local development
+    # Production frontend domain:
+    "https://multi-model-healthcare-system-e5afc0eaeue8bddm.centralindia-01.azurewebsites.net",
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 # Set up directories
 UPLOAD_FOLDER = "uploads/backend"
 FRONTEND_UPLOAD_FOLDER = "uploads/frontend"
 SKIN_LESION_OUTPUT = "uploads/skin_lesion_output"
 SPEECH_DIR = "uploads/speech"
-
+ASSETS_DIR = "assets"  # Added assets directory
 
 # Create directories if they don't exist
-for directory in [UPLOAD_FOLDER, FRONTEND_UPLOAD_FOLDER, SKIN_LESION_OUTPUT, SPEECH_DIR]:
+for directory in [UPLOAD_FOLDER, FRONTEND_UPLOAD_FOLDER, SKIN_LESION_OUTPUT, SPEECH_DIR, ASSETS_DIR]:
     os.makedirs(directory, exist_ok=True)
 
-# Mount static files directory
-app.mount("/data", StaticFiles(directory="data"), name="data")
+# Mount static files directory - ORDER MATTERS!
+app.mount("/assets", StaticFiles(directory="assets"), name="assets")
 app.mount("/uploads", StaticFiles(directory="uploads"), name="uploads")
-app.mount("/assets", StaticFiles(directory="assets"), name="assets")  # New line for assets
+app.mount("/data", StaticFiles(directory="data"), name="data")
 
 # Set up templates
 templates = Jinja2Templates(directory="templates")
@@ -94,6 +114,26 @@ def health_check():
     """Health check endpoint for Docker health checks"""
     return {"status": "healthy"}
 
+# Add endpoint to check if assets exist
+@app.get("/check-assets")
+def check_assets():
+    """Check if required assets exist"""
+    assets_status = {}
+    required_assets = ["logo_rounded.png"]
+    
+    for asset in required_assets:
+        asset_path = os.path.join(ASSETS_DIR, asset)
+        assets_status[asset] = {
+            "exists": os.path.exists(asset_path),
+            "path": asset_path,
+            "url": f"/assets/{asset}"
+        }
+    
+    return {
+        "assets_directory": ASSETS_DIR,
+        "assets_status": assets_status
+    }
+
 @app.post("/chat")
 def chat(
     request: QueryRequest, 
@@ -130,7 +170,6 @@ def chat(
         import traceback
         print("Error in /chat endpoint:\n", traceback.format_exc())
         raise HTTPException(status_code=500, detail="Internal Server Error")
-
 
 @app.post("/upload")
 async def upload_image(
@@ -232,14 +271,14 @@ def validate_medical_output(
         if validation_result.lower() == 'yes':
             return {
                 "status": "validated",
-                "message": "**Output confirmed by human validator:**",
+                "message": "*Output confirmed by human validator:*",
                 "response": response_data['messages'][-1].content
             }
         else:
             return {
                 "status": "rejected",
                 "comments": comments,
-                "message": "**Output requires further review:**",
+                "message": "*Output requires further review:*",
                 "response": response_data['messages'][-1].content
             }
     except Exception as e:
@@ -397,9 +436,6 @@ async def request_entity_too_large(request, exc):
         }
     )
 
-
-
 if __name__ == "__main__":
     port = int(os.getenv("PORT", config.api.port))  # Use Azure's PORT or fallback to config
     uvicorn.run(app, host=config.api.host, port=port)
-
