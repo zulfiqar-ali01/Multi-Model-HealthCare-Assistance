@@ -728,7 +728,7 @@
             welcomeMessage.style.display = 'none';
 
             // Send message to backend API
-            fetch('https://multi-model-healthcare-system-e5afc0eaeue8bddm.centralindia-01.azurewebsites.net/chat', {
+            fetch('/chat', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
