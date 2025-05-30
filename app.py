@@ -41,6 +41,7 @@ for directory in [UPLOAD_FOLDER, FRONTEND_UPLOAD_FOLDER, SKIN_LESION_OUTPUT, SPE
 # Mount static files directory
 app.mount("/data", StaticFiles(directory="data"), name="data")
 app.mount("/uploads", StaticFiles(directory="uploads"), name="uploads")
+app.mount("/assets", StaticFiles(directory="assets"), name="assets")  # New line for assets
 
 # Set up templates
 templates = Jinja2Templates(directory="templates")
