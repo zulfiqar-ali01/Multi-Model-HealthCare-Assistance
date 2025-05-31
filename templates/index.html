@@ -360,6 +360,7 @@
             font-size: 1.125rem;
             animation: logoGlow 3s ease-in-out infinite;
             box-shadow: 0 0 20px var(--shadow);
+            border: 1px solid var(--border);
         }
 
         @keyframes logoGlow {
@@ -681,8 +682,9 @@
             -webkit-background-clip: text;
             background-clip: text;
             -webkit-text-fill-color: transparent;
+            -text-fill-color: transparent;
             animation: titleGlow 3s ease-in-out infinite;
-            text-shadow: 0 0 30px var(--primary);
+            text-shadow: 0 0 10px var(--primary);
             filter: drop-shadow(0 0 10px var(--primary));
         }
 
@@ -1122,8 +1124,8 @@
             <button class="action-btn md:hidden" id="mobile-menu-btn">
                 <i class="fas fa-bars"></i>
             </button>
-            <div class="logo"><img src="/assets/logo-round.png" alt="Logo"></div>
-            <div class="app-title">Healthcare Assistant</div>
+            <img class="logo" src="/assets/logo-round.png" alt="Logo">
+            <div class="app-title hidden lg:block">Healthcare Assistant</div>
         </div>
         <div class="header-actions">
             <div class="theme-selector">
