@@ -1,7 +1,8 @@
 
 # Multi-Modal Personalized Healthcare Agent
 
-![Logo](./assets/logo-round.png)
+![png](https://github.com/user-attachments/assets/fce85241-1d90-405d-a8ce-6932f1d29ded)
+
 
 ## Overview
 
