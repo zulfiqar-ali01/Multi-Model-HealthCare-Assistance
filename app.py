@@ -38,6 +38,7 @@ origins = [
     "http://localhost:8000",  # Added for local development
     "http://127.0.0.1:8000",  # Added for local development
     # Production frontend domain:
+     "https://luma-health.codewithbismillah.online",
     "https://multi-model-healthcare-system-e5afc0eaeue8bddm.centralindia-01.azurewebsites.net",
 ]
 
